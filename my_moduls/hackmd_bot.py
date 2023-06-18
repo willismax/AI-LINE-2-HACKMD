@@ -9,7 +9,6 @@ import datetime
 
 # load_dotenv()
 
-
 def update_ai_note(question,response):
     api = API(os.environ.get("HACKMD_API_TOKEN"))
     note = api.get_note(note_id = os.environ.get("AI_NOTE_ID"))

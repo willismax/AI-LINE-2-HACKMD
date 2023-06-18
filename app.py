@@ -1,5 +1,5 @@
 import os
-
+from dotenv import load_dotenv
 from flask import Flask, request, abort, jsonify
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -7,17 +7,11 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
 )
 
+load_dotenv()
 # 使用自訂的模組(資料夾-檔案)
 import my_moduls.hackmd_bot as hb
 import my_moduls.my_functions as mf
 from my_moduls.openai_bot import OpenAIBot
-
-# 使用自訂的檔案-變數
-# from config import (
-#     CHANNEL_ACCESS_TOKEN, CHANNEL_SECRET, LINE_USER_ID, TEMP_NOTE_ID
-# ) 
-# line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
-# handler = WebhookHandler(CHANNEL_SECRET)
 
 
 app = Flask(__name__)

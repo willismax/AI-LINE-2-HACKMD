@@ -6,7 +6,6 @@ import datetime
 # from config import (
 #     HACKMD_API_TOKEN, TODO_NOTE_ID, TEMP_NOTE_ID, IMGUR_CLIENT_ID, TEMP_NOTE_ID, AI_NOTE_ID
 # ) 
-
 # load_dotenv()
 
 def update_ai_note(question,response):

@@ -42,11 +42,11 @@ def callback():
 def handle_message(event):
     """LINE MessageAPI message processing"""
     text = event.message.text
-    if event.source.user_id =='Udeadbeefdeadbeefdeadbeefdeadbeef':
+    if event.source.user_id == 'Udeadbeefdeadbeefdeadbeefdeadbeef':
         return 'OK'
     
     # 處裡圖片的方式: 上傳圖床、存HackMD暫存筆記
-    if event.message.type=='image':
+    if event.message.type == 'image':
         image = line_bot_api.get_message_content(event.message.id)
         content = hb.flex_reply_image(image)
         message = FlexSendMessage(
@@ -55,11 +55,20 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, message)
     
-    if event.message.type=='text':
-        text =  str(event.message.text)
-        content = hb.add_temp_note(text)
-        message = TextSendMessage(text=content)
-        line_bot_api.reply_message(event.reply_token, message)
+    if event.message.type == 'text':
+        if text[:3] == "@ai":
+            content = event.message.text
+            chatgpt.add_msg(f"HUMAN:{content}?\n")
+            reply_msg = chatgpt.get_response()
+            hb.update_ai_note(content,reply_msg)  #將回應紀錄於HackMD
+            message = TextSendMessage(text=reply_msg)
+            line_bot_api.reply_message(event.reply_token, message)
+        
+        else:
+            text =  str(event.message.text)
+            content = hb.add_temp_note(text)
+            message = TextSendMessage(text=content)
+            line_bot_api.reply_message(event.reply_token, message)
 
     # if "http" in text or "https" in text:
     #     url = text

@@ -1,7 +1,8 @@
 import openai
-from config import OPENAI_API_KEY
+import os
+# from config import OPENAI_API_KEY
 
-openai.api_key = OPENAI_API_KEY
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 chat_language = "zh" 
 MSG_LIST_LIMIT = 20
 LANGUAGE_TABLE = {
@@ -48,3 +49,6 @@ class OpenAIBot:
 	
     def add_msg(self, text):
         self.prompt.add_msg(text)
+
+    
+    

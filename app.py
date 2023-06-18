@@ -1,5 +1,5 @@
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from flask import Flask, request, abort, jsonify
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -7,7 +7,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
 )
 
-load_dotenv()
+# load_dotenv()
 # 使用自訂的模組(資料夾-檔案)
 import my_moduls.hackmd_bot as hb
 import my_moduls.my_functions as mf
@@ -16,14 +16,14 @@ from my_moduls.openai_bot import OpenAIBot
 
 app = Flask(__name__)
 
-line_bot_api = LineBotApi(os.getenv("CHANNEL_ACCESS_TOKEN"))
-handler = WebhookHandler(os.getenv("CHANNEL_SECRET"))
+line_bot_api = LineBotApi(os.environ.get("CHANNEL_ACCESS_TOKEN"))
+handler = WebhookHandler(os.environ.get("CHANNEL_SECRET"))
 chatgpt = OpenAIBot()
 
 
 # Messages on start and restart
 line_bot_api.push_message(
-    os.getenv("LINE_USER_ID"), 
+    os.environ.get("LINE_USER_ID"), 
     TextSendMessage(text='Bot Starting')
     )
 

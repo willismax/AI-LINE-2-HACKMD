@@ -37,6 +37,7 @@ def callback():
         return jsonify({"message": "Invalid signature."}), 400
     return jsonify({"message": "Success"})
 
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     """LINE MessageAPI message processing"""

@@ -62,59 +62,62 @@ def handle_message(event):
     
     if event.message.type=='text':
         text =  str(event.message.text)
+        content = hb.add_temp_note(text)
+        message = TextSendMessage(text=content)
+        line_bot_api.reply_message(event.reply_token, message)
 
-    if "http" in text or "https" in text:
-        url = text
-        title, first_subtitle, first_paragraph = mf.extract_url_content(url)
-        summary, hashtags = mf.generate_summary_and_hashtags(title + " " + first_subtitle + " " + first_paragraph, openai_api_key)
-        new_note = mf.process_summary_and_create_hackmd(url, title, first_subtitle, first_paragraph, summary, hashtags)
-        # Send a Flex Message with the new HackMD note information
-    flex_message = {
-        "type": "bubble",
-        "header": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-                {
-                    "type": "text",
-                    "text": "Summary",
-                    "size": "xl",
-                    "weight": "bold"
-                }
-            ]
-        },
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-                {
-                    "type": "text",
-                    "text": title,
-                    "weight": "bold"
-                },
-                {
-                    "type": "text",
-                    "text": summary
-                }
-            ]
-        },
-        "footer": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-                {
-                    "type": "button",
-                    "action": {
-                        "type": "uri",
-                        "label": "View on HackMD",
-                        "uri": new_note["noteUrl"]
-                    },
-                    "style": "primary"
-                }
-            ]
-        }
-    }
-    line_bot_api.reply_message(event.reply_token, FlexSendMessage(alt_text="Summary", contents=flex_message))
+    # if "http" in text or "https" in text:
+    #     url = text
+    #     title, first_subtitle, first_paragraph = mf.extract_url_content(url)
+    #     summary, hashtags = mf.generate_summary_and_hashtags(title + " " + first_subtitle + " " + first_paragraph, openai_api_key)
+    #     new_note = mf.process_summary_and_create_hackmd(url, title, first_subtitle, first_paragraph, summary, hashtags)
+    #     # Send a Flex Message with the new HackMD note information
+    # flex_message = {
+    #     "type": "bubble",
+    #     "header": {
+    #         "type": "box",
+    #         "layout": "vertical",
+    #         "contents": [
+    #             {
+    #                 "type": "text",
+    #                 "text": "Summary",
+    #                 "size": "xl",
+    #                 "weight": "bold"
+    #             }
+    #         ]
+    #     },
+    #     "body": {
+    #         "type": "box",
+    #         "layout": "vertical",
+    #         "contents": [
+    #             {
+    #                 "type": "text",
+    #                 "text": title,
+    #                 "weight": "bold"
+    #             },
+    #             {
+    #                 "type": "text",
+    #                 "text": summary
+    #             }
+    #         ]
+    #     },
+    #     "footer": {
+    #         "type": "box",
+    #         "layout": "vertical",
+    #         "contents": [
+    #             {
+    #                 "type": "button",
+    #                 "action": {
+    #                     "type": "uri",
+    #                     "label": "View on HackMD",
+    #                     "uri": new_note["noteUrl"]
+    #                 },
+    #                 "style": "primary"
+    #             }
+    #         ]
+    #     }
+    # }
+    # line_bot_api.reply_message(event.reply_token, FlexSendMessage(alt_text="Summary", contents=flex_message))
 
 if __name__ == "__main__":
     app.run()

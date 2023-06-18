@@ -1,0 +1,12 @@
+Flask
+gunicorn
+line-bot-sdk
+requests
+beautifulsoup4
+openai
+markdown
+pytest
+pytest-flask
+httpretty
+PyHackMD
+pyimgur

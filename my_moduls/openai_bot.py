@@ -35,7 +35,7 @@ class OpenAIBot:
         self.max_tokens = 240 #int(os.getenv("OPENAI_MAX_TOKENS", default = 240))
 	
     def get_response(self):
-        response = openai.Completion.create(
+        response = openai.ChatCompletion.create(
 	            model=self.model,
 	            prompt=self.prompt.generate_prompt(),
 	            temperature=self.temperature,

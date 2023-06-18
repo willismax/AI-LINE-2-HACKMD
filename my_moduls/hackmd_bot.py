@@ -1,5 +1,5 @@
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from PyHackMD import API
 import pyimgur
 import datetime
@@ -7,16 +7,16 @@ import datetime
 #     HACKMD_API_TOKEN, TODO_NOTE_ID, TEMP_NOTE_ID, IMGUR_CLIENT_ID, TEMP_NOTE_ID, AI_NOTE_ID
 # ) 
 
-load_dotenv()
+# load_dotenv()
 
 
 def update_ai_note(question,response):
-    api = API(os.getenv("HACKMD_API_TOKEN"))
-    note = api.get_note(note_id = os.getenv("AI_NOTE_ID"))
+    api = API(os.environ.get("HACKMD_API_TOKEN"))
+    note = api.get_note(note_id = os.environ.get("AI_NOTE_ID"))
     ori_content = note['content']
     update_content = f"{ori_content}\n---\n**Q: {question[3:]}**\n\n```\n{response}\n```\n"
     api.update_note(
-        note_id = os.getenv("AI_NOTE_ID"),
+        note_id = os.environ.get("AI_NOTE_ID"),
         content = update_content
         )
     return f"已備份至 {note['publishLink']}"
@@ -29,7 +29,7 @@ def get_user_image(image_content):
     return path
 
 def upload_img_link(imgpath):   
-	im = pyimgur.Imgur(os.getenv("IMGUR_CLIENT_ID"))
+	im = pyimgur.Imgur(os.environ.get("IMGUR_CLIENT_ID"))
 	upload_image = im.upload_image(imgpath, title="Uploaded with PyImgur")
 	return upload_image.link
 
